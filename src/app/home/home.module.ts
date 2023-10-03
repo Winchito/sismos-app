@@ -5,14 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { GetDataService } from '../services/get-data.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
+  providers: [
+    GetDataService
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    HttpClientModule
   ],
   declarations: [HomePage]
 })

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { InfiniteScrollCustomEvent, LoadingController } from '@ionic/angular';
 import { GetDataService } from '../services/get-data.service';
 import { Sismo } from '../interfaces/Sismo';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ export class HomePage {
 
   data: any
   sismos: Sismo[] = []
-  constructor(private getservice: GetDataService, private loadingCtrl: LoadingController) {}
+  constructor(private getservice: GetDataService, private loadingCtrl: LoadingController, private navCtrl: NavController) {}
 
   ngOnInit() {
     this.getDataSismos()
@@ -32,7 +33,26 @@ export class HomePage {
       // Agregar cada sismo al array this.sismos
       info.slice(0,6).forEach((sismo: any) => {
         this.sismos.push(sismo);
+
+
+      // Separar las coordenadas de cada sismo aquí
+        const coordenadasArray = sismo.geometry.coordinates.splice(0);
+        const latitud = Number(coordenadasArray[0]);
+        const longitud = Number(coordenadasArray[1]);
+
+      // Puedes hacer lo que desees con latitud y longitud aquí.
+      sismo.latitud = latitud;
+      sismo.longitud = longitud;
       });
+    });
+  }
+
+  redireccionarMapa(lat: number, lon: number){
+    this.navCtrl.navigateForward('/map', {
+      queryParams: {
+        lat: lat,
+        lon: lon
+      }
     });
   }
   

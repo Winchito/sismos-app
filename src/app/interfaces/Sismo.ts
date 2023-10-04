@@ -6,6 +6,11 @@ export interface Sismo {
       time: string;
       // Otras propiedades aquí
     };
+    geometry:{
+      coordinates: string;
+    };
+    latitud?: number;
+    longitud?: number;
 
   }
   

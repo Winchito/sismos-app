@@ -19,7 +19,13 @@ export class HomePage {
     this.getDataSismos()
   }
 
-  getDataSismos() {
+  async getDataSismos(event?: InfiniteScrollCustomEvent) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando datos',
+      spinner: 'lines-sharp-small',
+    });
+    await loading.present();
+
     this.getservice.getData().subscribe(datos => {
       this.data = datos;
       console.log(this.data);
@@ -32,6 +38,7 @@ export class HomePage {
   
       // Agregar cada sismo al array this.sismos
       info.slice(0,6).forEach((sismo: any) => {
+        loading.dismiss();
         this.sismos.push(sismo);
 
 
@@ -47,13 +54,20 @@ export class HomePage {
     });
   }
 
-  redireccionarMapa(lat: number, lon: number){
+  async redireccionarMapa(lat: number, lon: number){
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando datos',
+      spinner: 'lines-sharp-small',
+    });
+    await loading.present();
+    
     this.navCtrl.navigateForward('/map', {
       queryParams: {
         lat: lat,
-        lon: lon
+        lon: lon,        
       }
     });
+    loading.dismiss();
   }
   
 }

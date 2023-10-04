@@ -25,3 +25,17 @@
 #container a {
   text-decoration: none;
 }
+
+
+ion-title.title-large {
+  color: #0a7bd7;
+  font-size: 30px;
+}
+
+ion-title {
+  --color: #ffffff;
+}
+
+ion-toolbar {
+  --background: #0a7bd7;
+}

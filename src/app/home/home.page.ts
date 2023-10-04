@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { InfiniteScrollCustomEvent, LoadingController } from '@ionic/angular';
 import { GetDataService } from '../services/get-data.service';
 import { Sismo } from '../interfaces/Sismo';
 
@@ -11,7 +12,7 @@ export class HomePage {
 
   data: any
   sismos: Sismo[] = []
-  constructor(private getservice: GetDataService) {}
+  constructor(private getservice: GetDataService, private loadingCtrl: LoadingController) {}
 
   ngOnInit() {
     this.getDataSismos()
@@ -29,7 +30,7 @@ export class HomePage {
       console.log(info);
   
       // Agregar cada sismo al array this.sismos
-      info.forEach((sismo: any) => {
+      info.slice(0,6).forEach((sismo: any) => {
         this.sismos.push(sismo);
       });
     });

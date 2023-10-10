@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError, map } from 'rxjs';
 
 
 @Injectable({
@@ -22,17 +22,30 @@ export class GetDataService {
     );
   }
 
-  getDataFiltrada(startDate: string, endDate: string, minMagnitude: number) {
-    const params = {
+  getDataFiltrada(startDate: string, endDate: string, minMagnitude?: number, city?: string) {
+    const params: any = {
       format: 'geojson',
       starttime: startDate,
       endtime: endDate,
-      minmagnitude: minMagnitude.toString(),
-      maxmagnitude: minMagnitude.toString(),
-      limit: 100
+      limit: 1000,
     };
 
-    return this.http.get(this.apiUrlFiltrada, { params });
+    if(minMagnitude != null){
+      params['minmagnitude'] = minMagnitude.toString();
+      params['maxmagnitude'] = minMagnitude.toString();
+    }
+
+    return this.http.get(this.apiUrlFiltrada, { params }).pipe(
+      map((data:any) => {
+        if(city){
+          const resultadosFiltrados = data.features.filter((event: any) =>
+          event.properties.place && event.properties.place.includes(city)
+          );
+          data.features = resultadosFiltrados;
+        }
+        return data;
+      })
+    )
   }
 
 }

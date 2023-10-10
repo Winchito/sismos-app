@@ -21,7 +21,7 @@ export class BuscadorPage implements OnInit {
   datetime2: HTMLIonDatetimeElement | null
   data: any
   sismos: Sismo[] = []
-  ciudad: string;
+  ciudad?: string;
   magnitud: number;
 
   constructor(private getservice: GetDataService, private loadingCtrl: LoadingController, private navCtrl: NavController) {}
@@ -30,16 +30,16 @@ export class BuscadorPage implements OnInit {
     const datetimes = document.querySelectorAll('ion-datetime');
     this.datetime1 = datetimes[0];
     this.datetime2 = datetimes[1];
-
   }
 
   getSismosFiltrados(){
     this.sismos = [];
     const startDate = this.fechaInicialSeleccionada || '2023-01-01';
     const endDate = this.fechaFinalSeleccionada || this.organizarFecha(new Date()).toString();
-    const minMagnitude = this.magnitud || 1;
-    console.log("Valores antes de entrar al metodo de conseguir datos, startdate:"+startDate+"endDate: "+endDate+"y maginutd: "+minMagnitude)
-    this.getservice.getDataFiltrada(startDate, endDate, minMagnitude).subscribe((datos: any) =>{
+    const minMagnitude = this.magnitud;
+    const city = this.ciudad;
+    console.log("Valores antes de entrar al metodo de conseguir datos, startdate:"+startDate+"endDate: "+endDate+", maginutd: "+minMagnitude+"y ciudad"+city)
+    this.getservice.getDataFiltrada(startDate, endDate, minMagnitude, city).subscribe((datos: any) =>{
       this.data = datos;
       console.log(datos)
 
@@ -93,6 +93,8 @@ export class BuscadorPage implements OnInit {
     });
     loading.dismiss();
   }
+
+
 
   mostrarDatetimeInicial() {
     this.mostrarInicial = true;

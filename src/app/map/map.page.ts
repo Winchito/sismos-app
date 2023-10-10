@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap } from '@capacitor/google-maps';
 import { environment } from 'src/environments/environment';
+import { NavController } from '@ionic/angular';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class MapPage {
 
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private navCtrl: NavController) { }
 
   latitud: number;
   longitud: number;
@@ -34,6 +35,10 @@ export class MapPage {
     setTimeout(async () => {
     await this.createMap();
       }, 500);
+   }
+
+   goBack(){
+    this.navCtrl.pop()
    }
 
    @ViewChild('map') public mapEl: ElementRef<HTMLElement>;

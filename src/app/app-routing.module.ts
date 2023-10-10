@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'map',
     loadChildren: () => import('./map/map.module').then( m => m.MapPageModule)
   },
+  {
+    path: 'buscador',
+    loadChildren: () => import('./buscador/buscador.module').then( m => m.BuscadorPageModule)
+  },
 ];
 
 @NgModule({

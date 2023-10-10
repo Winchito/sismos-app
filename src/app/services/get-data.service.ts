@@ -10,6 +10,7 @@ export class GetDataService {
 
   constructor(private http: HttpClient) { }
   apiUrl = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&endtime'
+  apiUrlFiltrada = 'https://earthquake.usgs.gov/fdsnws/event/1/query?'
 
  
   getData(){
@@ -19,6 +20,19 @@ export class GetDataService {
         return throwError(() => error);
       })
     );
+  }
+
+  getDataFiltrada(startDate: string, endDate: string, minMagnitude: number) {
+    const params = {
+      format: 'geojson',
+      starttime: startDate,
+      endtime: endDate,
+      minmagnitude: minMagnitude.toString(),
+      maxmagnitude: minMagnitude.toString(),
+      limit: 100
+    };
+
+    return this.http.get(this.apiUrlFiltrada, { params });
   }
 
 }

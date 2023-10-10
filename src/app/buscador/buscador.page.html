@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-icon slot="start" name="compass" color="dark"></ion-icon>
+    <ion-title>
+      <b class="ion-text-wrap">Buscador</b>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-label (click)="mostrarDatetimeInicial()" id="label-fecha">Seleccionar fecha: {{fechaInicialSeleccionada | date: "yyyy-MM-dd"}}</ion-label>
+  <br><br><br>
+  <ion-label (click)="mostrarDatetimeFinal()" id="label-fecha">Seleccionar fecha: {{fechaFinalSeleccionada | date: "yyyy-MM-dd"}}</ion-label>
+ <!-- Fecha Inicial -->
+  <ion-item id="fecha-item" [class.ocultoInicial]="!mostrarInicial">
+   <ion-datetime id="fecha-selector" presentation="date" [(ngModel)]="fechaInicialSeleccionada">
+   <ion-buttons slot="buttons">
+    <ion-button color="primary" (click)="cerrarDatetimeInicial()">Cancelar</ion-button>
+    <ion-button color="primary" (click)="guardarDatetimeInicial()">Confirmar</ion-button>
+  </ion-buttons></ion-datetime>
+ </ion-item>
+ <!-- Fecha Final -->
+ <ion-item id="fecha-item" [class.ocultoFinal]="!mostrarFinal">
+  <ion-datetime presentation="date" [(ngModel)]="fechaFinalSeleccionada" id="fecha-selector">
+  <ion-buttons slot="buttons">
+   <ion-button (click)="cerrarDatetimeFinal()">Cancelar</ion-button>
+   <ion-button (click)="guardarDatetimeFinal()">Confirmar</ion-button>
+ </ion-buttons></ion-datetime>
+</ion-item>
+<br><br>
+<!-- Inputs de Ciudad y Magnitud -->
+<ion-item>
+  <ion-input label="Ciudad" placeholder="Ingrese ciudad" type="text-input" [(ngModel)]="ciudad"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-input label="Magnitud" placeholder="Ingrese Magnitud" type="number" [(ngModel)]="magnitud"></ion-input>
+</ion-item>
+
+<ion-button expand="block" (click)="getSismosFiltrados()">Buscar</ion-button>
+
+<div *ngFor="let sismo of sismos" [class.ocultoDatos]="!mostrarDatos">
+  <ion-list [inset]="true">
+    <ion-item><ion-label class="ion-text-wrap"><b>• Lugar: </b>{{sismo.properties.place}}</ion-label></ion-item>
+    <ion-item><ion-label class="ion-text-wrap"><b> Magnitud: </b> {{sismo.properties.mag}}</ion-label></ion-item>
+    <ion-item><ion-label class="ion-text-wrap"><b> Fecha: </b> {{sismo.properties.time | date: 'short'}}</ion-label></ion-item>
+    <ion-item><ion-label class="ion-text-wrap"><b> Latitud: </b> {{sismo.latitud}}</ion-label></ion-item>
+    <ion-item><ion-label class="ion-text-wrap"><b> Longitud: </b> {{sismo.longitud}}</ion-label></ion-item>
+    <ion-button (click)="redireccionarMapa(sismo.latitud!, sismo.longitud!)"><ion-icon slot="start" name="information-circle" color="dark"></ion-icon><b>Ver detalles</b></ion-button>
+  </ion-list>
+</div>  
+
+</ion-content>
+
+
